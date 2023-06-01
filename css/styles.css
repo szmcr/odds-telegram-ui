@@ -1,0 +1,57 @@
+
+body{
+    background-color:#545454; 
+    color: #fff;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+ }
+.container{
+    width: 100%;
+}
+
+.odds-sct {
+    background-color: #b0b0b0;
+    display: inline-flex;
+    padding: 15px;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.odds {
+    display: grid;
+    grid-template-areas: 
+    'team1 price1 check'
+    'team2  price2 check'
+    ;
+
+    max-width: 260px;
+    min-width: 260px;
+    width: 260px;
+    background-color: rgb(148, 204, 236);
+    margin-left: 10px;
+    margin-right: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    color: rgb(66, 66, 66);
+}
+
+.side-checkbox {
+    margin-top: 15px;
+    grid-area: check;
+}
+
+.team1 {
+    grid-area: team1;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+.team2 {
+    grid-area: team2;
+    font-weight: 800;
+}
+.price1 {
+    grid-area: price1;
+}
+.price2 {
+    grid-area: price2;
+}

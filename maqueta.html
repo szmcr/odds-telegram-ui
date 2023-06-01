@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Telegram Odds</title>
+
+
+    <style>
+        body {
+            background-color:#545454; 
+            color: #fff;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+        }
+        .card {
+            display: grid;
+            grid-template-areas: 
+            'team1 price1'
+            'team2  price2';
+            max-width: 260px;
+            min-width: 260px;
+            width: 260px;
+            background-color: rgb(255, 255, 255);
+            margin-left: 10px;
+            margin-right: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            color: rgb(66, 66, 66);
+            place-items: center;
+            -webkit-box-shadow: 0px 7px 5px 0px rgba(199,199,199,1);
+            -moz-box-shadow: 0px 7px 5px 0px rgba(199,199,199,1);
+            box-shadow: 0px 7px 5px 0px rgba(199,199,199,1);
+        }
+        .odds-sct {
+            display: inline-flex;
+            padding: 15px;
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        .card.selected {
+        position: relative;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;}
+
+        .card.selected::before,
+        .card.selected::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        bottom: -2px;
+        left: -2px;
+        z-index: -1;
+        background: linear-gradient(90deg, rgba(191,155,12,1) 0%, rgba(179,158,19,1) 43%, rgba(93,92,6,1) 100%);
+        border-radius: 5px;
+        }
+
+        .card.selected::after {
+        top: -4px;
+        right: -4px;
+        bottom: -4px;
+        left: -4px;
+        }
+
+        .content {
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 80%;
+        }
+    </style>
+
+</head>
+<body>
+    <header>
+        <ul>
+            <li>Active Leagues</li>
+        </ul>
+    </header>
+    <div class="content">
+        <section class="odds-sct">
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+        </section>
+        <section class="odds-sct">
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+        </section>
+        <section class="odds-sct">
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+        </section>
+        <section class="odds-sct">
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+            <div class="card">
+                <span class="team1">Chelsea</span>
+                <span class="team2">Real Madrid</span>
+                <span class="price1">+200</span>
+                <span class="price2">-100</span>
+            </div>
+        </section>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.card');
+        const selectedCards = [];
+
+        cards.forEach((card) => {
+            card.addEventListener('click', () => {
+            card.classList.toggle('selected');
+            const cardId = card.id;
+
+            if (card.classList.contains('selected')) {
+                selectedCards.push(cardId);
+            } else {
+                const index = selectedCards.indexOf(cardId);
+                if (index > -1) {
+                selectedCards.splice(index, 1);
+                }
+            }
+            });
+
+        });
+
+        });
+    </script>
+</body>
+</html>
