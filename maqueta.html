@@ -41,14 +41,6 @@
             -moz-box-shadow: 0px 7px 5px 0px rgba(199,199,199,1);
             box-shadow: 0px 7px 5px 0px rgba(199,199,199,1);
         }
-
-        .card:hover {
-
-            border: solid 2px rgb(214, 194, 14);
-            transform: scale(1.09);
-            cursor: pointer;
-        }
-
         .odds-sct {
             display: inline-flex;
             padding: 15px;
@@ -59,12 +51,23 @@
             margin-top: 20px;
         }
         .card.selected {
-        border: solid 3px rgb(214, 194, 14);
-        transform: scale(1.09);
-    }
-    .card.selected:hover {
-        cursor: pointer;
-    }
+        position: relative;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;}
+
+        .card.selected::before,
+        .card.selected::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        bottom: -2px;
+        left: -2px;
+        z-index: -1;
+        background: linear-gradient(90deg, rgba(191,155,12,1) 0%, rgba(179,158,19,1) 43%, rgba(93,92,6,1) 100%);
+        border-radius: 5px;
+        }
 
         .card.selected::after {
         top: -4px;
@@ -80,76 +83,6 @@
             border-radius: 10px;
             overflow: hidden;
             width: 80%;
-            padding: 20px;
-            transition: all 300ms;
-        }
-        .content h2 {
-            text-align: center;
-            color: rgb(169, 143, 11);
-           
-        }
-        h2 {
-            font-size: 30px;
-            font-weight: 700;
-        }
-        h1 {
-            font-size: 40px;
-            font-weight: 800;
-            margin-top: 10px;
-        }
-        .header{
-            text-align: center;
-            padding-top: 20px;
-            height: 80px;
-            background-color: #0e0e0e;
-            width: 100%;
-            margin-bottom: 30px;
-            box-shadow: 0px 10px 5px 3px rgba(33, 33, 33, 0.75);
-            -webkit-box-shadow: 0px 10px 5px 3px rgba(33, 33, 33, 0.75);
-            -moz-box-shadow: 0px 10px 5px 3px rgba(33, 33, 33, 0.75);
-        }
-
-        .btn-sect {
-            height: 50px;
-            width: 600px;
-            display: flex;
-            justify-content: space-around;
-            margin: 0 auto;
-            align-items: center;
-        }
-
-        .btn-sect button {
-            width: 150px;
-            height: 40px;
-            border-radius: 5px;
-            border: none;
-            font-size: 16px;
-            padding: 5px;
-            background-color: rgb(169, 143, 11);
-            color: #fff;
-        }
-
-        .btn-sect button:hover {
-            transform: scale(1.1);
-            cursor: pointer;
-        }
-
-        .message-sect {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-            height: 20vh;
-        }
-
-        .message-txt {
-            margin: 0 auto;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .hide {
-            display: none;
         }
     </style>
 
@@ -158,12 +91,7 @@
     <header class="header">
         <h1>Odds Picker for Telegram</h1>
     </header>
-    <section class="btn-sect">
-        <button id="btnGenerate">Generate Message</button>
-        <button id="btnUnselect">Unselect All</button>
-    </section>
     <div class="content">
-        <h2>Soccer</h2>
         <section class="odds-sct">
             <div class="card">
                 <span class="date">Feb 17</span>
@@ -336,14 +264,6 @@
             </div>
         </section>
     </div>
-    <section class="message-sect hide">
-        <h2>Generated Text</h2>
-        <div>
-        <textarea class="message-txt" cols="40" rows="20">Esto es una prueba</textarea>
-        <input type="button" value="Copy" />
-        <input type="button" value="Delete" />
-        </div>
-    </section>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
         const cards = document.querySelectorAll('.card');
