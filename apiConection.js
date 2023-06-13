@@ -50,6 +50,15 @@ const selectedSportsArray = () => {
     return arr
 }
 
+const validateSelection = () => {
+
+    if (selectedSportsArray() == '') {
+        Swal.fire('Please select a sport competition.');
+    } else {
+        generateOdds();
+    }
+}
+
 const generateOdds = async () => {
     let active_sports = selectedSportsArray();
     console.log(active_sports);   
@@ -105,6 +114,7 @@ const generateOdds = async () => {
     addClass('selectSports', 'hide');
     removeClass('btnSect', 'hide');
     removeClass('oddsContent', 'hide');
+    removeClass('goBack', 'hide');
 }
 
 
@@ -119,5 +129,6 @@ const removeClass = (id, className) => {
 }
 
 let btnSports = document.getElementById('btnSports');
+let btnGoBack = document.getElementById('btnGoBack')
 
-btnSports.addEventListener('click', generateOdds)
+btnSports.addEventListener('click', validateSelection)

@@ -196,3 +196,15 @@ button:hover {
     flex-direction: column;
     align-items: center;
 }
+
+#btnGoBack {
+    margin: 30px;
+}
+
+.go-back-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 150px;
+}
