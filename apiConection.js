@@ -114,7 +114,7 @@ const generateOdds = async () => {
     addClass('selectSports', 'hide');
     removeClass('btnSect', 'hide');
     removeClass('oddsContent', 'hide');
-    removeClass('goBack', 'hide');
+    removeClass('btnGoBack', 'hide');
 }
 
 
@@ -132,3 +132,13 @@ let btnSports = document.getElementById('btnSports');
 let btnGoBack = document.getElementById('btnGoBack')
 
 btnSports.addEventListener('click', validateSelection)
+btnGoBack.addEventListener('click', () => {
+    let checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+    removeClass('selectSports', 'hide');
+    addClass('btnSect', 'hide');
+    addClass('oddsContent', 'hide');
+    addClass('btnGoBack', 'hide');
+    checkboxes.forEach(box => {
+        box.checked = false;
+    });
+})
