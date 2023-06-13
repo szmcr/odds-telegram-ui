@@ -26,7 +26,7 @@ const findSports = async () => {
     });
     let html = '';
     sportsArray.forEach(item => {
-      html += `<div class="sport-opt"><label for="${item.short_name}">${item.title}</label> <input type="checkbox" name="${item.short_name}" id="${item.short_name + 'id'}"/></div>`
+      html += `<div class="sport-opt"><input type="checkbox" name="${item.short_name}" id="${item.short_name + 'id'}"/><label for="${item.short_name}">${item.title}</label> </div>`
     });
 
     document.getElementById('sportsCheck').innerHTML += html;
@@ -66,6 +66,7 @@ const getOdds = async () => {
       const data = await response.json();
       let oddsObject = {
         sport: temp,
+        title: data[0].sport_title,  // Add sport title
         data: data
       };
       dataArray.push(oddsObject);
@@ -81,9 +82,9 @@ const getOdds = async () => {
 const generateOdds = async () => {
   const data = await getOdds();
   let html = '';
+  
   for (let temp of data) {
-    html += `<h2>${temp.sport}</h2>
-      <section class="odds-sct">`;
+    html += `<h2>${temp.sport}</h2><section class="odds-sct">`;
     try {
       for (let game of temp.data) {
         const originalDate = game.commence_time;
@@ -98,15 +99,23 @@ const generateOdds = async () => {
         const gameTime = `${formattedHours}:${minutes.toString().padStart(2, "0")} ${meridiem}`;
 
         if (game.bookmakers[0] && game.bookmakers[0].markets[0] && game.bookmakers[0].markets[0].outcomes) {
-          html += `<div class="card" id="${game.id}">
+          const team1 = game.away_team;
+          const team2 = game.home_team;
+          const price1 = game.bookmakers[0].markets[1].outcomes[0].point + ' ' + game.bookmakers[0].markets[1].outcomes[0].price;
+          const price2 = game.bookmakers[0].markets[1].outcomes[1].point + ' ' +  game.bookmakers[0].markets[1].outcomes[1].price;
+          const over = game.bookmakers[0].markets[2].outcomes[0].price;
+          const under = game.bookmakers[0].markets[2].outcomes[1].price;
+          const total = game.bookmakers[0].markets[2].outcomes[1].point;
+          
+          html += `<div class="card" id="${game.id}" data-sport="${temp.title}" data-team1="${team1}" data-team2="${team2}" data-date="${gameDate}" data-time="${gameTime}" data-price1="${price1}" data-price2="${price2}" data-over="${over}" data-under="${under}" data-totals="${total}">
             <span class="date">${gameDate}</span>
             <span class="time">${gameTime}</span>
-            <span class="team1">${game.away_team}</span>
-            <span class="team2">${game.home_team}</span>
-            <span class="price1">${game.bookmakers[0].markets[0].outcomes[0].price}</span>
-            <span class="price2">${game.bookmakers[0].markets[0].outcomes[1].price}</span>
-            <span class="over">Over ${game.bookmakers[0].markets[1].outcomes[0].price}</span>
-            <span class="under">Under ${game.bookmakers[0].markets[1].outcomes[1].price}</span>
+            <span class="team1">${team1}</span>
+            <span class="team2">${team2}</span>
+            <span class="price1">${price1}</span>
+            <span class="price2">${price2}</span>
+            <span class="over">Over ${over}</span>
+            <span class="under">Under ${under}</span>
           </div>`;
         } else {
           console.log("Error: can't access the data for this game.");
@@ -127,6 +136,7 @@ const generateOdds = async () => {
   removeClass('oddsContent', 'hide');
   removeClass('btnGoBack', 'hide');
 }
+
 
 const addClass = (id, className) => {
   let tag = document.getElementById(id);
@@ -161,67 +171,48 @@ const cardSelection = () => {
 };
 
 const generateTextMessage = () => {
-    const selectedCards = document.querySelectorAll('.card.selected');
-    const selectedSports = selectedSportsArray();
-    const sportMap = new Map();
-  
-    selectedCards.forEach((card, index) => {
-      const sport = selectedSports[index];
-      const dateElement = card.querySelector('.date');
-      const timeElement = card.querySelector('.time');
-      const team1Element = card.querySelector('.team1');
-      const team2Element = card.querySelector('.team2');
-      const price1Element = card.querySelector('.price1');
-      const price2Element = card.querySelector('.price2');
-      const overElement = card.querySelector('.over');
-      const underElement = card.querySelector('.under');
-  
-      if (
-        sport && dateElement && timeElement &&
-        team1Element && team2Element && price1Element &&
-        price2Element && overElement && underElement
-      ) {
-        const date = dateElement.textContent.trim();
-        const time = timeElement.textContent.trim();
-        const team1 = team1Element.textContent.trim();
-        const team2 = team2Element.textContent.trim();
-        const price1 = price1Element.textContent.trim();
-        const price2 = price2Element.textContent.trim();
-        const over = overElement.textContent.trim();
-        const under = underElement.textContent.trim();
-  
-        if (!sportMap.has(sport)) {
-          sportMap.set(sport, []);
-        }
-  
-        const gameInfo = `${team1} vs ${team2}\nPrice 1: ${price1}\nPrice 2: ${price2}\n${over}\n${under}\n${time}`;
-  
-        sportMap.get(sport).push(gameInfo);
-      } else {
-        console.error('Error: Missing elements in the selected card.');
-        console.log('card:', card);
-      }
-    });
-  
-    const currentDate = new Date();
-    const month = currentDate.toLocaleString('en-US', { month: 'short' });
-    const day = currentDate.getDate();
-    const formattedDate = `${month} ${day}th, ${currentDate.getFullYear()}`;
-  
-    let message = `Top Games of the Day\n${formattedDate}\n\n`;
-  
-    sportMap.forEach((games, sport) => {
-      message += `${sport}\n\n`;
-      games.forEach((game) => {
-        message += `    ${game}\n\n`;
-      });
-    });
-  
-    return message;
-    // You can use the generated message as needed (e.g., display it on the page, send it via email, etc.)
-  };
-  
+  const selectedCards = document.querySelectorAll('.card.selected');
+  const sportMap = new Map();
 
+  selectedCards.forEach((card, index) => {
+    const team1 = card.dataset.team1;
+    const team2 = card.dataset.team2;
+    const price1 = card.dataset.price1;
+    const price2 = card.dataset.price2;
+    const date = card.dataset.date;
+    const time = card.dataset.time;
+    const over = card.dataset.over;
+    const under = card.dataset.under;
+    const totals = card.dataset.totals;
+
+    const gameInfo = `${team1} ${price1}\n
+                      ${team2} ${price2}\n
+                      TOTAL ${totals}\n
+                      ${time} EST                    
+                      `;
+
+    const sportTitle = card.dataset.sport;
+
+    if (sportMap.has(sportTitle)) {
+      sportMap.get(sportTitle).push(gameInfo);
+    } else {
+      sportMap.set(sportTitle, [gameInfo]);
+    }
+  });
+
+  let message = 'Top Games of the Day\n';
+  message += new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  message += '\n\n';
+
+  sportMap.forEach((games, sport) => {
+    message += `${sport}\n\n`;
+    games.forEach((game) => {
+      message += `    ${game}\n\n`;
+    });
+  });
+
+  return message;
+};
 
 let btnSports = document.getElementById('btnSports');
 let btnGoBack = document.getElementById('btnGoBack');
