@@ -217,7 +217,7 @@ const generateTextMessage = () => {
       });
     });
   
-    console.log(message);
+    return message;
     // You can use the generated message as needed (e.g., display it on the page, send it via email, etc.)
   };
   
