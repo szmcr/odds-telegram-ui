@@ -33,17 +33,16 @@
     </section>
     <section class="btn-sect hide" id="btnSect">
         <button id="btnGenerate">Generate Message</button>
-        <button id="btnUnselect">Unselect All</button>
+        <button id="btnFilter">Filter Today's Games</button>
     </section>
     <div class="content hide" id="oddsContent">
     </div>
     <div class="go-back-box"><button class="btn hide" id="btnGoBack">Go Back</button></div>
-    <section class="message-sect hide">
-        <h2>Generated Text</h2>
+    <section class="message-sect hide" id="messageSect">
+        <h2>Telegram Message</h2>
         <div>
-        <textarea class="message-txt" cols="40" rows="20">Esto es una prueba</textarea>
+        <div id="message"></div>
         <input type="button" value="Copy" />
-        <input type="button" value="Delete" />
         </div>
     </section>
     <script src="/apiConection.js"></script>

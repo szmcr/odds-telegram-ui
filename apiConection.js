@@ -66,7 +66,7 @@ const getOdds = async () => {
       const data = await response.json();
       let oddsObject = {
         sport: temp,
-        title: data[0].sport_title,  // Add sport title
+        title: data[0].sport_title,
         data: data
       };
       dataArray.push(oddsObject);
@@ -138,6 +138,10 @@ const generateOdds = async () => {
 }
 
 
+const unselectAll = () => {
+
+}
+
 const addClass = (id, className) => {
   let tag = document.getElementById(id);
   tag.classList.add(className);
@@ -185,11 +189,7 @@ const generateTextMessage = () => {
     const under = card.dataset.under;
     const totals = card.dataset.totals;
 
-    const gameInfo = `${team1} ${price1}\n
-                      ${team2} ${price2}\n
-                      TOTAL ${totals}\n
-                      ${time} EST                    
-                      `;
+    const gameInfo = `<p>${team1} ${price1}</p><p>${team2} ${price2}</p><p>TOTAL ${totals}</p><p>${time} EST</p>`;
 
     const sportTitle = card.dataset.sport;
 
@@ -200,14 +200,14 @@ const generateTextMessage = () => {
     }
   });
 
-  let message = 'Top Games of the Day\n';
+  let message = '<h3>Top Games of the Day<br/>';
   message += new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  message += '\n\n';
+  message += '<br/><br/>';
 
   sportMap.forEach((games, sport) => {
-    message += `${sport}\n\n`;
+    message += `<h4><strong>${sport}<strong><h4/><br/>`;
     games.forEach((game) => {
-      message += `    ${game}\n\n`;
+      message += `${game}<br/><br/>`;
     });
   });
 
@@ -217,6 +217,7 @@ const generateTextMessage = () => {
 let btnSports = document.getElementById('btnSports');
 let btnGoBack = document.getElementById('btnGoBack');
 let btnGenerate = document.getElementById('btnGenerate');
+let btnFilter = document.getElementById('btnFilter');
 
 btnSports.addEventListener('click', validateSelection);
 btnGoBack.addEventListener('click', () => {
@@ -232,6 +233,6 @@ btnGoBack.addEventListener('click', () => {
 
 btnGenerate.addEventListener('click', () => {
   const textMessage = generateTextMessage();
-  // Replace the following line with your desired action
-  console.log(textMessage);
+  document.getElementById('message').innerHTML = `<p>${textMessage}</p>` ;
+  removeClass('messageSect', 'hide');
 });
