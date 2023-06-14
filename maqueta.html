@@ -33,19 +33,21 @@
     </section>
     <section class="btn-sect hide" id="btnSect">
         <button id="btnGenerate">Generate Message</button>
-        <button id="btnFilter">Filter Today's Games</button>
+        <!-- <button id="btnFilter">Filter Today's Games</button> -->
     </section>
     <div class="content hide" id="oddsContent">
     </div>
     <div class="go-back-box"><button class="btn hide" id="btnGoBack">Go Back</button></div>
-    <section class="message-sect hide" id="messageSect">
+    <section class="content message-sect hide" id="messageSect">
         <h2>Telegram Message</h2>
         <div>
         <div id="message"></div>
-        <input type="button" value="Copy" />
+        <button id="btnCopy" class="btn" type="button">Copy</button>   
         </div>
     </section>
     <script src="/apiConection.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <footer class="footer">&copy; 2023 Santiago Zeledón</footer>
 </body>
+
 </html>

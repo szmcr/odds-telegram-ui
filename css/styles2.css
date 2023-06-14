@@ -2,6 +2,10 @@ body {
     background-color:#545454; 
     color: #fff;
     font-family: 'Mulish', sans-serif;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 .card {
     display: grid;
@@ -34,7 +38,6 @@ cursor: pointer;
 .odds-sct {
     display: flex;
     padding: 16px;
-    width: 100%;
     overflow-x: auto;
     white-space: wrap;
     flex-flow: wrap;
@@ -99,6 +102,12 @@ h1 {
     -moz-box-shadow: 0px 10px 5px 3px rgba(33, 33, 33, 0.75);
 }
 
+.footer {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+}
+
 .btn-sect {
     height: 50px;
     width: 600px;
@@ -124,18 +133,35 @@ h1 {
     cursor: pointer;
 }
 
-.message-sect {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    height: 20vh;
-}
-
 .message-txt {
     margin: 0 auto;
     margin-top: 20px;
     margin-bottom: 20px;
     display: block;
+}
+
+.message-sect {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    height: 20vh;
+    color: #0e0e0e;
+    height: auto;
+    padding: 15px;
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#message {
+    padding: 0 15% 0 15%;
+    margin: 20px 0px;
+    
+}
+
+#message p{
+    margin: 5px 0px;
 }
 
 .hide {
@@ -205,8 +231,10 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    margin: 30px auto;
+    margin-top: 0px;
     width: 150px;
+
 }
 
 div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
@@ -215,4 +243,30 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 
 .swal2-title {
     font-family: 'Mulish', sans-serif;
+}
+
+
+@media (width <= 664px) {
+    h1 {
+        font-size: 30px;
+    }
+    h2 {
+        font-size: 25px;
+        font-weight: 700;
+        text-align: center;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    .btn-sect {
+        width: 90%;
+    }
+    .content {
+        width: 90%;
+    }
+    .message-sect {
+        color: #0e0e0e;
+        height: auto;
+        padding: 15px;
+        width: 80%;
+    }
 }

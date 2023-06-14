@@ -200,12 +200,12 @@ const generateTextMessage = () => {
     }
   });
 
-  let message = '<h3>Top Games of the Day<br/>';
+  let message = '<h3>Top Games of the Day</h3><br/>';
   message += new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   message += '<br/><br/>';
 
   sportMap.forEach((games, sport) => {
-    message += `<h4><strong>${sport}<strong><h4/><br/>`;
+    message += `<strong>${sport}<strong><br/>`;
     games.forEach((game) => {
       message += `${game}<br/><br/>`;
     });
@@ -235,4 +235,6 @@ btnGenerate.addEventListener('click', () => {
   const textMessage = generateTextMessage();
   document.getElementById('message').innerHTML = `<p>${textMessage}</p>` ;
   removeClass('messageSect', 'hide');
+  addClass('oddsContent','hide');
+  addClass('btnGoBack', 'hide');
 });
