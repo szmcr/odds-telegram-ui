@@ -4,19 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Odds Optimization</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/styles.css">
+   
+    <title>BetUS Odds</title>
 
-    <link rel="stylesheet" href="/styles.css">
+
+    <style>
+        
+    </style>
+
 </head>
 <body>
-    <h1>Telegram Odds Optimization</h1>
-    <section id="content">
+    <header class="header">
+        <h1>Odds Picker</h1>
+        <button class="btn-head" id="btnHome">Home</button>
+    </header>
+    <section class="flex" id="selectSports">
+        <h2>Select the sports you want to use</h2>
+    <div class="sport-sect" id="sportsCheck">
         
+    </div>
+    <button id="btnSports">Start</button>
     </section>
-    <button>Crear Mensaje
-    </button>
+    <section class="btn-sect hide" id="btnSect">
+        <button id="btnGenerate">Generate Message</button>
+    </section>
+    <div class="content hide" id="oddsContent">
+    </div>
+    <section class="content message-sect hide" id="messageSect">
+        <h2>Telegram Message</h2>
+        <div>
+        <div id="message"></div>
+        <div class="btn-sect">
+        <button id="btnCopy" class="btn" type="button">Copy</button><button class="btn" id="btnGoBackOdds">Go Back</button></div> 
+        </div>
+    </section>
+    <div class="go-back-box"><button class="btn hide" id="btnGoBack">Go Back</button></div>
+    <footer class="footer">&copy; 2023 Santiago Zeledón</footer>
 
-    <textarea name="" id="" cols="30" rows="10"></textarea>
-     <script src="api.js" />
+    <script type="module" src="./js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+
 </html>
