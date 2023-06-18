@@ -194,7 +194,8 @@ const validateSportEmoji = (sport) => {
   let baseball = ['MLB', 'MLB Preseason', 'MLB World Series Winner', 'NCAA Baseball'];
   let iceHockey = ['NHL', 'NHL Championship Winner', 'SHL', 'HockeyAllsvenskan']
   let soccer = ['Africa Cup of Nations', 'Primera División - Argentina', 'A-League', 'Austrian Football Bundesliga', 'Belgium First Div', 'Brazil Série A', 'Brazil Série B', 'Primera División - Chile', 'Super League - China', 'Denmark Superliga', 'Championship', 'EFL Cup', 'League 1', 'League 2', 'EPL', 'FA Cup', 'FIFA World Cup', 'Veikkausliiga - Finland', 'Ligue 1 - France', 'Ligue 2 - France', 'Bundesliga - Germany', 'Bundesliga 2 - Germany', '3. Liga - Germany', 'Super League - Greece', 'Serie A - Italy', 'Serie B - Italy', 'J League', 'K League 1', 'League of Ireland', 'Liga MX', 'Dutch Eredivisie', 'Eliteserien - Norway', 'Ekstraklasa - Poland', 'Primeira Liga - Portugal', 'Premier League - Russia', 'La Liga - Spain', 'La Liga 2 - Spain', 'Premiership - Scotland', 'Allsvenskan - Sweden', 'Superettan - Sweden', 'Swiss Superleague', 'Turkey Super League', 'UEFA Europa Conference League', 'UEFA Champions League', 'UEFA Europa League', 'UEFA Nations League', 'Copa Libertadores', 'MLS']
-let tennis = ['ATP Australian Open', 'ATP French Open', 'ATP US Open', 'ATP Wimbledon', 'WTA Australian Open', 'WTA French Open', 'WTA US Open', 'WTA Wimbledon']
+  let tennis = ['ATP Australian Open', 'ATP French Open', 'ATP US Open', 'ATP Wimbledon', 'WTA Australian Open', 'WTA French Open', 'WTA US Open', 'WTA Wimbledon']
+  let rugby = ['NRL']
 
   if (football.includes(sport) || sport === 'AFL') {
     return emojis[0];
@@ -210,9 +211,13 @@ let tennis = ['ATP Australian Open', 'ATP French Open', 'ATP US Open', 'ATP Wimb
     return emojis[3];
   }else if (tennis.includes(sport)) {
     return emojis[6];
+  }else if (rugby.includes(sport)) {
+    return emojis[4];
   }
 
 }
+
+
 
 const generateTextMessage = () => {
   const selectedCards = document.querySelectorAll('.card.selected');
