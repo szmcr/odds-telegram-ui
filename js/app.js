@@ -85,57 +85,87 @@ const generateOdds = async () => {
   
   for (let temp of data) {
     html += `<h2>${temp.title}</h2><section class="odds-sct">`;
+
+    const currentDate = new Date();
+    const endDate = new Date();
+    endDate.setDate(currentDate.getDate() + 10);
+
+    let hasMatches = false; 
     try {
+
       for (let [index, game] of temp.data.entries()) {
         const originalDate = game.commence_time;
         const date = new Date(originalDate);
-        const month = monthNames[date.getUTCMonth()];
-        const day = date.getUTCDate();
-        const gameDate = `${month} ${day}`;
-        const hours = date.getUTCHours();
-        const minutes = date.getUTCMinutes();
-        const formattedHours = hours % 12 || 12;
-        const meridiem = hours >= 12 ? "PM" : "AM";
-        const gameTime = `${formattedHours}:${minutes.toString().padStart(2, "0")} ${meridiem}`;
-        
-
-
-        if (game.bookmakers[0] && game.bookmakers[0].markets[0] && game.bookmakers[0].markets[0].outcomes) {
-          const team1 = game.away_team;
-          const team2 = game.home_team;
-          const price1 = game.bookmakers[0].markets[1].outcomes[0].point + ' ' + game.bookmakers[0].markets[1].outcomes[0].price;
-          const price2 = game.bookmakers[0].markets[1].outcomes[1].point + ' ' +  game.bookmakers[0].markets[1].outcomes[1].price;
-          const over = game.bookmakers[0].markets[2].outcomes[0].price;
-          const under = game.bookmakers[0].markets[2].outcomes[1].price;
-          const total = game.bookmakers[0].markets[2].outcomes[1].point;
+        if (date >= currentDate && date <= endDate){
+          hasMatches = true;
+          const month = monthNames[date.getUTCMonth()];
+          const day = date.getUTCDate();
+          const gameDate = `${month} ${day}`;
+          const hours = date.getUTCHours();
+          const minutes = date.getUTCMinutes();
+          const formattedHours = hours % 12 || 12;
+          const meridiem = hours >= 12 ? "PM" : "AM";
+          const gameTime = `${formattedHours}:${minutes.toString().padStart(2, "0")} ${meridiem}`;
           
-          html += `<div class="card" id="${game.id}" data-sport="${temp.title}" data-team1="${team1}" data-team2="${team2}" data-date="${gameDate}" data-time="${gameTime}" data-price1="${price1}" data-price2="${price2}" data-over="${over}" data-under="${under}" data-totals="${total}">
+  
+  
+          if (game.bookmakers[0] && game.bookmakers[0].markets[0] && game.bookmakers[0].markets[0].outcomes) {
+            const team1 = game.away_team;
+            const team2 = game.home_team;
+            const ml1 = game.bookmakers[0].markets[0] ? game.bookmakers[0].markets[0].outcomes[0].price : 'N/A';
+            const ml2 = game.bookmakers[0].markets[0] ? game.bookmakers[0].markets[0].outcomes[1].price : 'N/A';   
+            const spreadOdds1 = game.bookmakers[0].markets[1].outcomes[0].price > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[0].price : game.bookmakers[0].markets[1].outcomes[0].price
+            const spreadOdds2 = game.bookmakers[0].markets[1].outcomes[1].price > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[1].price : game.bookmakers[0].markets[1].outcomes[1].price
+            const price1 = game.bookmakers[0].markets[1].outcomes[0].point + '  ' + spreadOdds1;
+            const price2 = game.bookmakers[0].markets[1].outcomes[1].point + '  ' +  spreadOdds2;
+            const over = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[0].price : 'N/A';
+            const under = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[1].price : 'N/A';
+            const total = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[1].point : 'N/A';
+            
+            html += `<div class="card" id="${game.id}" 
+            data-sport="${temp.title}" 
+            data-team1="${team1}" 
+            data-team2="${team2}" 
+            data-date="${gameDate}" 
+            data-time="${gameTime}"
+            data-ml1="${ml1}"
+            data-ml2="${ml2}" 
+            data-price1="${price1}" 
+            data-price2="${price2}" 
+            data-over="${over}" 
+            data-under="${under}" 
+            data-totals="${total}">
+              <span class="date">${gameDate}</span>
+              <span class="time">${gameTime}</span>
+              <span class="team1">${team1}</span>
+              <span class="team2">${team2}</span>
+              <span class="price1">${price1}</span>
+              <span class="price2">${price2}</span>
+              <span class="over">Over ${over}</span>
+              <span class="under">Under ${under}</span>
+            </div>`;
+          } else {
+            const team1 = game.away_team;
+            const team2 = game.home_team;
+          
+            if(index < 20){
+            html += `<div class="card non-selectable">
             <span class="date">${gameDate}</span>
             <span class="time">${gameTime}</span>
             <span class="team1">${team1}</span>
             <span class="team2">${team2}</span>
-            <span class="price1">${price1}</span>
-            <span class="price2">${price2}</span>
-            <span class="over">Over ${over}</span>
-            <span class="under">Under ${under}</span>
-          </div>`;
-        } else {
-          const team1 = game.away_team;
-          const team2 = game.home_team;
-        
-          if(index < 20){
-          html += `<div class="card non-selectable">
-          <span class="date">${gameDate}</span>
-          <span class="time">${gameTime}</span>
-          <span class="team1">${team1}</span>
-          <span class="team2">${team2}</span>
-          <span>No Odds</span>
-          <span>No Odds</span>
-          </div>`
+            <span>No Odds</span>
+            <span>No Odds</span>
+            </div>`
+            }
+            console.log("Error: can't access the data for this game.");
           }
-          console.log("Error: can't access the data for this game.");
         }
       }
+      if (!hasMatches) {
+        html += `<div class="card non-selectable no-matches">No matches/fights scheduled for the next 10 days</div>`;
+      }
+      
     } catch (error) {
       console.error('Error:', error);
     }
@@ -203,7 +233,7 @@ const validateSportEmoji = (sport) => {
     return emojis[1];
   }else if (baseball.includes(sport)) {
     return emojis[2];
-  }else if (sport === 'Boxing') {
+  }else if (sport === 'Boxing' || sport === 'MMA') {
     return emojis[7];
   }else if (iceHockey.includes(sport)) {
     return emojis[6];
@@ -228,15 +258,23 @@ const generateTextMessage = () => {
     const team2 = card.dataset.team2;
     const price1 = card.dataset.price1;
     const price2 = card.dataset.price2;
+    const ml1 = Number(card.dataset.ml1) > 0 ? `+${card.dataset.ml1}` : card.dataset.ml1;
+    const ml2 = Number(card.dataset.ml2) > 0 ? `+${card.dataset.ml2}` : card.dataset.ml2;
     const date = card.dataset.date;
     const time = card.dataset.time;
-    const over = card.dataset.over;
-    const under = card.dataset.under;
+    const over = card.dataset.over ? card.dataset.over : '';
+    const under = card.dataset.under ? card.dataset.under : '';
     const totals = card.dataset.totals;
-
-    const gameInfo = `${team1} ${price1}\n${team2} ${price2}\nTOTAL ${totals}\n${time} EST`;
-
+    
     const sportTitle = card.dataset.sport;
+    let gameInfo;
+
+    if (totals != 'N/A'){
+      gameInfo = sportTitle === 'Boxing' || sportTitle === 'MMA' ? `${team1} ${ml1}\n${team2} ${ml2}\nTOTAL ${totals}\n${time} EST` : `${team1} ${price1}\n${team2} ${price2}\nTOTAL ${totals}\n${time} EST`;
+    } else { 
+      gameInfo = sportTitle === 'Boxing' || sportTitle === 'MMA' ? `${team1} ${ml1}\n${team2} ${ml2}\n${time} EST` : `${team1} ${price1}\n${team2} ${price2}\n${time} EST`;
+    }
+    
 
     if (sportMap.has(sportTitle)) {
       sportMap.get(sportTitle).push(gameInfo);
@@ -263,7 +301,7 @@ const generateTextMessage = () => {
 let btnSports = document.getElementById('btnSports');
 let btnGoBack = document.getElementById('btnGoBack');
 let btnGenerate = document.getElementById('btnGenerate');
-/* let btnFilter = document.getElementById('btnFilter');*/let btnCopy = document.getElementById('btnCopy')
+let btnCopy = document.getElementById('btnCopy')
 let btnGoBackOdds = document.getElementById('btnGoBackOdds')
 let btnHome = document.getElementById('btnHome')
 

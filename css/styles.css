@@ -60,6 +60,12 @@ box-sizing: content-box;
 cursor: pointer;
 }
 
+.no-matches {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
 .content {
     margin: 0 auto;
