@@ -118,8 +118,8 @@ const generateOdds = async () => {
             const mlAway = game.bookmakers[0].markets[0] ? game.bookmakers[0].markets[0].outcomes[1].price : 'N/A';   
             const spreadOddsHome = Number(game.bookmakers[0].markets[1].outcomes[0].price) > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[0].price : game.bookmakers[0].markets[1].outcomes[0].price;
             const spreadOddsAway = Number(game.bookmakers[0].markets[1].outcomes[1].price) > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[1].price : game.bookmakers[0].markets[1].outcomes[1].price;
-            const pointSpreadHome = game.bookmakers[0].markets[1].outcomes[0].point ; 
-            const pointSpreadAway = game.bookmakers[0].markets[1].outcomes[1].point ; 
+            const pointSpreadHome = Number(game.bookmakers[0].markets[1].outcomes[0].point) > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[0].point : game.bookmakers[0].markets[1].outcomes[0].point; 
+            const pointSpreadAway = Number(game.bookmakers[0].markets[1].outcomes[1].point) > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[1].point : game.bookmakers[0].markets[1].outcomes[1].point; 
             const spreadHome = pointSpreadHome + '  ' + spreadOddsHome;
             const spreadAway = pointSpreadAway + '  ' +  spreadOddsAway;
             const over = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[0].price : 'N/A';
@@ -285,8 +285,8 @@ const generateTextMessage = () => {
     const homeTeam = card.dataset.hometeam;
     const spreadHome = card.dataset.spreadhome;
     const spreadAway = card.dataset.spreadaway;
-    const mlHome = Number(card.dataset.mlhome) > 0 ? `+${card.dataset.mlHome}` : card.dataset.mlhome;
-    const mlAway = Number(card.dataset.mlaway) > 0 ? `+${card.dataset.mlAway}` : card.dataset.mlaway;
+    const mlHome = Number(card.dataset.mlhome) > 0 ? `+${card.dataset.mlhome}` : card.dataset.mlhome;
+    const mlAway = Number(card.dataset.mlaway) > 0 ? `+${card.dataset.mlaway}` : card.dataset.mlaway;
     const date = card.dataset.date;
     const time = card.dataset.time;
     const over = card.dataset.over ? card.dataset.over : '';
