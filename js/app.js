@@ -92,7 +92,12 @@ const pointSpreadFormatter = (number) => {
   let formattedNumber;
   if (Math.abs(number) % 1 === 0.5) {
     const integerPart = Math.floor(Math.abs(number));
-    formattedNumber = `${number >= 0 ? "" : "-"}${integerPart}½`;
+    if (Math.abs(number) === 0.5) {
+      formattedNumber = `${number >= 0 ? "" : "-"}½`;
+    } else {
+      formattedNumber = `${number >= 0 ? "" : "-"}${integerPart}½`;
+    }
+
   } else {
     formattedNumber = `${number}`;
   }
