@@ -88,6 +88,18 @@ const getOdds = async () => {
   return dataArray;
 }
 
+const pointSpreadFormatter = (number) => {
+  let formattedNumber;
+  if (Math.abs(number) % 1 === 0.5) {
+    const integerPart = Math.floor(Math.abs(number));
+    formattedNumber = `${number >= 0 ? "" : "-"}${integerPart}½`;
+  } else {
+    formattedNumber = `${number}`;
+  }
+
+  return formattedNumber;
+}
+
 const generateOdds = async () => {
   const data = await getOdds();
   let html = '';
@@ -120,8 +132,8 @@ const generateOdds = async () => {
             const spreadOddsAway = Number(game.bookmakers[0].markets[1].outcomes[1].price) > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[1].price : game.bookmakers[0].markets[1].outcomes[1].price;
             const pointSpreadHome = Number(game.bookmakers[0].markets[1].outcomes[0].point) > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[0].point : game.bookmakers[0].markets[1].outcomes[0].point; 
             const pointSpreadAway = Number(game.bookmakers[0].markets[1].outcomes[1].point) > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[1].point : game.bookmakers[0].markets[1].outcomes[1].point; 
-            const spreadHome = pointSpreadHome + '  ' + spreadOddsHome;
-            const spreadAway = pointSpreadAway + '  ' +  spreadOddsAway;
+            const spreadHome = pointSpreadFormatter(pointSpreadHome) + '  ' + spreadOddsHome;
+            const spreadAway = pointSpreadFormatter(pointSpreadAway) + '  ' +  spreadOddsAway;
             const over = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[0].price : 'N/A';
             const under = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[1].price : 'N/A';
             const total = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[1].point : 'N/A';
@@ -153,8 +165,29 @@ const generateOdds = async () => {
               <span class="over">Over ${over}</span>
               <span class="under">Under ${under}</span>
             </div>`;
-            } else { 
+            } else if (fighting.includes(temp.title)) { 
+
+
               html += `<div class="card" id="${game.id}" 
+            data-sport="${temp.title}" 
+            data-awayteam="${awayTeam}" 
+            data-hometeam="${homeTeam}" 
+            data-date="${gameDate}" 
+            data-time="${gameTime}"
+            data-mltome="${mlHome}"
+            data-mlaway="${mlAway}"
+            >
+              <span class="date">${gameDate}</span>
+              <span class="time">${gameTime}</span>
+              <span class="homeTeam">${homeTeam}</span>
+              <span class="awayTeam">${awayTeam}</span>
+              <span class="spreadAway">${Number(mlHome) > 0 ? '+' + mlHome : mlHome}</span>
+              <span class="spreadHome">${Number(mlAway) > 0 ? '+' + mlAway : mlAway}</span>
+              <span class="over">No Odds</span>
+              <span class="under">No Odds</span>
+            </div>`;
+          } else {
+            html += `<div class="card" id="${game.id}" 
             data-sport="${temp.title}" 
             data-awayteam="${awayTeam}" 
             data-hometeam="${homeTeam}" 
