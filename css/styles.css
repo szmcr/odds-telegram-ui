@@ -45,7 +45,7 @@ box-sizing: content-box;
     justify-content: center;
 }
 
-.team1, .team2 {
+.awayTeam, .homeTeam {
     font-size: 12px;
     text-align: center;
     display: flex;
@@ -330,9 +330,3 @@ textarea {
     resize: vertical;
     overflow-y: auto;
   }
-
- /*  .msg-btn {
-    width: 90%;
-    display: flex;
-    margin: 0 auto;
-  } */

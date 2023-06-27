@@ -4,6 +4,15 @@ const monthNames = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
+const football = ['CFL', 'NCAAF', 'NFL', 'NFL Super Bowl Winner', 'XFL', 'NFL Preseason'];
+  const basketball = ['Basketball Euroleague', 'NBA', 'NBA Championship Winner', 'WNBA', 'NCAAB']
+  const baseball = ['MLB', 'MLB Preseason', 'MLB World Series Winner', 'NCAA Baseball'];
+  const iceHockey = ['NHL', 'NHL Championship Winner', 'SHL', 'HockeyAllsvenskan'];
+  const soccer = ['Africa Cup of Nations', 'Primera División - Argentina', 'A-League', 'Austrian Football Bundesliga', 'Belgium First Div', 'Brazil Série A', 'Brazil Série B', 'Primera División - Chile', 'Super League - China', 'Denmark Superliga', 'Championship', 'EFL Cup', 'League 1', 'League 2', 'EPL', 'FA Cup', 'FIFA World Cup', 'Veikkausliiga - Finland', 'Ligue 1 - France', 'Ligue 2 - France', 'Bundesliga - Germany', 'Bundesliga 2 - Germany', '3. Liga - Germany', 'Super League - Greece', 'Serie A - Italy', 'Serie B - Italy', 'J League', 'K League 1', 'League of Ireland', 'Liga MX', 'Dutch Eredivisie', 'Eliteserien - Norway', 'Ekstraklasa - Poland', 'Primeira Liga - Portugal', 'Premier League - Russia', 'La Liga - Spain', 'La Liga 2 - Spain', 'Premiership - Scotland', 'Allsvenskan - Sweden', 'Superettan - Sweden', 'Swiss Superleague', 'Turkey Super League', 'UEFA Europa Conference League', 'UEFA Champions League', 'UEFA Europa League', 'UEFA Nations League', 'Copa Libertadores', 'MLS'];
+  const tennis = ['ATP Australian Open', 'ATP French Open', 'ATP US Open', 'ATP Wimbledon', 'WTA Australian Open', 'WTA French Open', 'WTA US Open', 'WTA Wimbledon'];
+  const rugby = ['NRL'];
+  const fighting = ['MMA', 'Boxing'];
+
 
 const findSports = async () => {
   try {
@@ -75,7 +84,7 @@ const getOdds = async () => {
     }
     console.log(url);
   }
-
+  
   return dataArray;
 }
 
@@ -98,62 +107,87 @@ const generateOdds = async () => {
         const date = new Date(originalDate);
         if (date >= currentDate && date <= endDate){
           hasMatches = true;
-          const month = monthNames[date.getUTCMonth()];
-          const day = date.getUTCDate();
-          const gameDate = `${month} ${day}`;
-          const hours = date.getUTCHours();
-          const minutes = date.getUTCMinutes();
-          const formattedHours = hours % 12 || 12;
-          const meridiem = hours >= 12 ? "PM" : "AM";
-          const gameTime = `${formattedHours}:${minutes.toString().padStart(2, "0")} ${meridiem}`;
-          
+          const gameDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'America/New_York' });
+          const gameTime = date.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' });
   
   
           if (game.bookmakers[0] && game.bookmakers[0].markets[0] && game.bookmakers[0].markets[0].outcomes) {
-            const team1 = game.away_team;
-            const team2 = game.home_team;
-            const ml1 = game.bookmakers[0].markets[0] ? game.bookmakers[0].markets[0].outcomes[0].price : 'N/A';
-            const ml2 = game.bookmakers[0].markets[0] ? game.bookmakers[0].markets[0].outcomes[1].price : 'N/A';   
-            const spreadOdds1 = game.bookmakers[0].markets[1].outcomes[0].price > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[0].price : game.bookmakers[0].markets[1].outcomes[0].price
-            const spreadOdds2 = game.bookmakers[0].markets[1].outcomes[1].price > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[1].price : game.bookmakers[0].markets[1].outcomes[1].price
-            const price1 = game.bookmakers[0].markets[1].outcomes[0].point + '  ' + spreadOdds1;
-            const price2 = game.bookmakers[0].markets[1].outcomes[1].point + '  ' +  spreadOdds2;
+            const awayTeam = game.away_team;
+            const homeTeam = game.home_team;
+            const mlHome = game.bookmakers[0].markets[0] ? game.bookmakers[0].markets[0].outcomes[0].price : 'N/A';
+            const mlAway = game.bookmakers[0].markets[0] ? game.bookmakers[0].markets[0].outcomes[1].price : 'N/A';   
+            const spreadOddsHome = Number(game.bookmakers[0].markets[1].outcomes[0].price) > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[0].price : game.bookmakers[0].markets[1].outcomes[0].price;
+            const spreadOddsAway = Number(game.bookmakers[0].markets[1].outcomes[1].price) > 0 ? '+' + game.bookmakers[0].markets[1].outcomes[1].price : game.bookmakers[0].markets[1].outcomes[1].price;
+            const pointSpreadHome = game.bookmakers[0].markets[1].outcomes[0].point ; 
+            const pointSpreadAway = game.bookmakers[0].markets[1].outcomes[1].point ; 
+            const spreadHome = pointSpreadHome + '  ' + spreadOddsHome;
+            const spreadAway = pointSpreadAway + '  ' +  spreadOddsAway;
             const over = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[0].price : 'N/A';
             const under = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[1].price : 'N/A';
             const total = game.bookmakers[0].markets[2] ? game.bookmakers[0].markets[2].outcomes[1].point : 'N/A';
             
-            html += `<div class="card" id="${game.id}" 
+            if (soccer.includes(temp.title)) {
+              /* Because of the API structure the variable asign as PointSpreadHome is the away one and viceversa */
+              let soccerSpreadAway = pointSpreadHome != 0 ? spreadHome : 'pk ' + spreadOddsHome;
+              let soccerSpreadHome = pointSpreadAway != 0 ? spreadAway : 'pk ' + spreadOddsAway;
+
+              html += `<div class="card" id="${game.id}" 
             data-sport="${temp.title}" 
-            data-team1="${team1}" 
-            data-team2="${team2}" 
+            data-awayteam="${awayTeam}" 
+            data-hometeam="${homeTeam}" 
             data-date="${gameDate}" 
             data-time="${gameTime}"
-            data-ml1="${ml1}"
-            data-ml2="${ml2}" 
-            data-price1="${price1}" 
-            data-price2="${price2}" 
+            data-mltome="${mlHome}"
+            data-mlaway="${mlAway}" 
+            data-spreadhome="${soccerSpreadHome}" 
+            data-spreadaway="${soccerSpreadAway}" 
             data-over="${over}" 
             data-under="${under}" 
             data-totals="${total}">
               <span class="date">${gameDate}</span>
               <span class="time">${gameTime}</span>
-              <span class="team1">${team1}</span>
-              <span class="team2">${team2}</span>
-              <span class="price1">${price1}</span>
-              <span class="price2">${price2}</span>
+              <span class="awayTeam">${homeTeam}</span>
+              <span class="homeTeam">${awayTeam}</span>
+              <span class="spreadHome">${pointSpreadAway != 0 ? spreadAway : 'pk ' + spreadOddsAway}</span>
+              <span class="spreadAway">${pointSpreadHome != 0 ? spreadHome : 'pk ' + spreadOddsHome}</span>
               <span class="over">Over ${over}</span>
               <span class="under">Under ${under}</span>
             </div>`;
+            } else { 
+              html += `<div class="card" id="${game.id}" 
+            data-sport="${temp.title}" 
+            data-awayteam="${awayTeam}" 
+            data-hometeam="${homeTeam}" 
+            data-date="${gameDate}" 
+            data-time="${gameTime}"
+            data-mltome="${mlHome}"
+            data-mlaway="${mlAway}" 
+            data-spreadhome="${spreadHome}" 
+            data-spreadaway="${spreadAway}" 
+            data-over="${over}" 
+            data-under="${under}" 
+            data-totals="${total}">
+              <span class="date">${gameDate}</span>
+              <span class="time">${gameTime}</span>
+              <span class="awayTeam">${awayTeam}</span>
+              <span class="homeTeam">${homeTeam}</span>
+              <span class="spreadAway">${spreadAway}</span>
+              <span class="spreadHome">${spreadHome}</span>
+              <span class="over">Over ${over}</span>
+              <span class="under">Under ${under}</span>
+            </div>`;
+          }
+          
           } else {
-            const team1 = game.away_team;
-            const team2 = game.home_team;
+            const awayTeam = game.away_team;
+            const homeTeam = game.home_team;
           
             if(index < 20){
             html += `<div class="card non-selectable">
             <span class="date">${gameDate}</span>
             <span class="time">${gameTime}</span>
-            <span class="team1">${team1}</span>
-            <span class="team2">${team2}</span>
+            <span class="awayTeam">${awayTeam}</span>
+            <span class="homeTeam">${homeTeam}</span>
             <span>No Odds</span>
             <span>No Odds</span>
             </div>`
@@ -218,14 +252,7 @@ const cardSelection = () => {
 };
 
 const validateSportEmoji = (sport) => {
-  let emojis = ['🏈', '🏀','⚾', '⚽', '🏉', '🏒', '🎾', '🥊', '🏓', '⛳'];
-  let football = ['CFL', 'NCAAF', 'NFL', 'NFL Super Bowl Winner', 'XFL', 'NFL Preseason'];
-  let basketball = ['Basketball Euroleague', 'NBA', 'NBA Championship Winner', 'WNBA', 'NCAAB']
-  let baseball = ['MLB', 'MLB Preseason', 'MLB World Series Winner', 'NCAA Baseball'];
-  let iceHockey = ['NHL', 'NHL Championship Winner', 'SHL', 'HockeyAllsvenskan']
-  let soccer = ['Africa Cup of Nations', 'Primera División - Argentina', 'A-League', 'Austrian Football Bundesliga', 'Belgium First Div', 'Brazil Série A', 'Brazil Série B', 'Primera División - Chile', 'Super League - China', 'Denmark Superliga', 'Championship', 'EFL Cup', 'League 1', 'League 2', 'EPL', 'FA Cup', 'FIFA World Cup', 'Veikkausliiga - Finland', 'Ligue 1 - France', 'Ligue 2 - France', 'Bundesliga - Germany', 'Bundesliga 2 - Germany', '3. Liga - Germany', 'Super League - Greece', 'Serie A - Italy', 'Serie B - Italy', 'J League', 'K League 1', 'League of Ireland', 'Liga MX', 'Dutch Eredivisie', 'Eliteserien - Norway', 'Ekstraklasa - Poland', 'Primeira Liga - Portugal', 'Premier League - Russia', 'La Liga - Spain', 'La Liga 2 - Spain', 'Premiership - Scotland', 'Allsvenskan - Sweden', 'Superettan - Sweden', 'Swiss Superleague', 'Turkey Super League', 'UEFA Europa Conference League', 'UEFA Champions League', 'UEFA Europa League', 'UEFA Nations League', 'Copa Libertadores', 'MLS']
-  let tennis = ['ATP Australian Open', 'ATP French Open', 'ATP US Open', 'ATP Wimbledon', 'WTA Australian Open', 'WTA French Open', 'WTA US Open', 'WTA Wimbledon']
-  let rugby = ['NRL']
+  const emojis = ['🏈', '🏀','⚾', '⚽', '🏉', '🏒', '🎾', '🥊', '🏓', '⛳'];
 
   if (football.includes(sport) || sport === 'AFL') {
     return emojis[0];
@@ -254,12 +281,12 @@ const generateTextMessage = () => {
   const sportMap = new Map();
 
   selectedCards.forEach((card, index) => {
-    const team1 = card.dataset.team1;
-    const team2 = card.dataset.team2;
-    const price1 = card.dataset.price1;
-    const price2 = card.dataset.price2;
-    const ml1 = Number(card.dataset.ml1) > 0 ? `+${card.dataset.ml1}` : card.dataset.ml1;
-    const ml2 = Number(card.dataset.ml2) > 0 ? `+${card.dataset.ml2}` : card.dataset.ml2;
+    const awayTeam = card.dataset.awayteam;
+    const homeTeam = card.dataset.hometeam;
+    const spreadHome = card.dataset.spreadhome;
+    const spreadAway = card.dataset.spreadaway;
+    const mlHome = Number(card.dataset.mlhome) > 0 ? `+${card.dataset.mlHome}` : card.dataset.mlhome;
+    const mlAway = Number(card.dataset.mlaway) > 0 ? `+${card.dataset.mlAway}` : card.dataset.mlaway;
     const date = card.dataset.date;
     const time = card.dataset.time;
     const over = card.dataset.over ? card.dataset.over : '';
@@ -270,9 +297,13 @@ const generateTextMessage = () => {
     let gameInfo;
 
     if (totals != 'N/A'){
-      gameInfo = sportTitle === 'Boxing' || sportTitle === 'MMA' ? `${team1} ${ml1}\n${team2} ${ml2}\nTOTAL ${totals}\n${time} EST` : `${team1} ${price1}\n${team2} ${price2}\nTOTAL ${totals}\n${time} EST`;
+      if (soccer.includes(sportTitle)) {
+        gameInfo =`${homeTeam} ${spreadHome}\n${awayTeam} ${spreadAway}\nTOTAL ${totals}\n${time} EST`;
+      } else {
+        gameInfo = sportTitle === 'Boxing' || sportTitle === 'MMA' ? `${homeTeam} ${mlHome}\n${awayTeam} ${mlAway}\nTOTAL ${totals}\n${time} EST` : `${awayTeam} ${spreadAway}\n${homeTeam} ${spreadHome}\nTOTAL ${totals}\n${time} EST`;
+      }
     } else { 
-      gameInfo = sportTitle === 'Boxing' || sportTitle === 'MMA' ? `${team1} ${ml1}\n${team2} ${ml2}\n${time} EST` : `${team1} ${price1}\n${team2} ${price2}\n${time} EST`;
+      gameInfo = sportTitle === 'Boxing' || sportTitle === 'MMA' ? `${homeTeam} ${mlHome}\n${awayTeam} ${mlAway}\n${time} EST` : `${awayTeam} ${spreadAway}\n${homeTeam} ${spreadHome}\n${time} EST`;
     }
     
 
